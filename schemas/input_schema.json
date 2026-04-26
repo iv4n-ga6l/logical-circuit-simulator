@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "oneOf": [
+    {
+      "required": ["circuitType"],
+      "properties": {
+        "circuitType": {
+          "enum": ["halfAdder", "fullAdder", "multiplexer"]
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    {
+      "required": ["gates"],
+      "properties": {
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": ["AND", "OR", "NOT", "XOR", "NAND", "NOR", "XNOR"]
+              },
+              "name": {
+                "type": "string",
+                "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$"
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": ["type", "name", "inputs"]
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "expression": {
+      "type": "string",
+      "description": "Boolean expression to evaluate"
+    },
+    "action": {
+      "enum": ["evaluate", "truthTable"],
+      "default": "evaluate"
+    }
+  }
+}
